@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegularExpression</title>
+</head>
+<body>
+   <script>
+    //Quantifires specify how many times a character or group should appear
+    let text1 ="hello";
+    let pattern1=/\a*/g;
+    let result1=text1.match(pattern1);
+    console.log(result1);
+    //modifiers
+    let text2 ="hai hello how are you?\nhai i'm fine.hai";
+    let pattern2=/^hai/igm;
+    let result2=text2.match(pattern2);
+    console.log(result2);
+//meta characters:
+      //meta character have special meaning in regex.
+//common meta character 
+//.->any character expect new line
+//d->digit(0-9)
+//w->word character (letters,digits,_)
+//s->whitespace
+      let number=(2345desf);
+      let pattern3=/\d+\w\g;
+      //methods
+      let text5="hai kavikuyil";
+      let pattern=/(\w+)\s+(\w+)/;
+      let result=text.match(pattern);
+      console.log(result);
+      console.log(result[0]);
+      console.log(result[1]);
+      console.log(result[2]);
+</script> 
+</body>
+</html>
