@@ -1,63 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Image Slider</title>
+ <title>Fetch API - User Dashboard</title>
  <style>
- .slider {
- text-align: center;
- position: relative;
- width: 60%;
- margin: auto;
+ body {
+ font-family: Arial, sans-serif;
+ padding: 20px;
  }
- .slider img {
- width: 100%;
- height: auto;
+ #status {
+ font-weight: bold;
+ color: blue;
  }
- .slider button {
- position: absolute;
- top: 50%;
- transform: translateY(-50%);
- padding: 10px;
- background-color: rgba(0, 0, 0, 0.5);
- color: white;
- border: none;
- cursor: pointer;
+ #userData {
+ margin-top: 20px;
  }
- #prevBtn {
- left: 10px;
+ li {
+ margin: 5px 0;
  }
- #nextBtn {
- right: 10px;
+ .error {
+ color: red;
  }
  </style>
 </head>
 <body>
- <div class="slider">
- <img src="image1.jpg" class="slider-image" alt="Image 1">
- <button id="prevBtn">Previous</button>
- <button id="nextBtn">Next</button>
- </div>
+ <h2>User Information Dashboard</h2>
+ <button onclick="loadUsers()">Load Users</button>
+ <p id="status"></p>
+ <div id="userData"></div>
  <script>
- let images = ["image1.jpg", "image2.jpg", "image3.jpg"];
- let currentIndex = 0;
- const imgElement = document.querySelector(".slider-image");
- const nextBtn = document.getElementById("nextBtn");
- const prevBtn = document.getElementById("prevBtn");
- nextBtn.addEventListener("click", () => {
- currentIndex = (currentIndex + 1) % images.length;
- imgElement.src = images[currentIndex];
+ function loadUsers() {
+ const status = document.getElementById('status');
+ const output = document.getElementById('userData');
+ // Clear previous output
+ status.textContent = 'Loading...';
+ output.innerHTML = '';
+ fetch('https://jsonplaceholder.typicode.com/users')
+ .then(response => {
+ if (!response.ok) {
+ throw new Error(`HTTP error! Status: ${response.status}`);
+ }
+ return response.json();
+ })
+ .then(data => {
+ status.textContent = ''; 
+ const listHTML = data.map(user =>
+ `<li><strong>${user.name}</strong> - ${user.email} - ${user.address.city}</li>`
+ ).join('');
+ output.innerHTML = `<ul>${listHTML}</ul>`;
+ })
+ .catch(error => {
+ status.textContent = 'Failed to load data.';
+ status.classList.add('error');
+ console.error('Fetch error:', error);
  });
- prevBtn.addEventListener("click", () => {
- currentIndex = (currentIndex - 1 + images.length) % images.length;
- imgElement.src = images[currentIndex];
- });
-  setInterval(() => {
- currentIndex = (currentIndex + 1) % images.length;
- imgElement.src = images[currentIndex];
- }, 3000);
+ }
  </script>
 </body>
 </html>
-
